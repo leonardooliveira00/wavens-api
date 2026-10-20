@@ -1,3 +1,23 @@
+# WAVENS — Information in motion.
+
+**Wavens** nasce da união de três elementos: **água, vento e onda**.
+
+A **água** representa o fluxo editorial da informação dentro da redação. Uma notícia nasce de uma fonte, passa pelo jornalista, chega à redação, é revisada, aprovada e finalmente publicada. Assim como a água percorre um curso, a informação percorre diferentes etapas até chegar ao seu destino.
+
+O **vento** representa a distribuição da informação depois da publicação. Uma vez que a notícia deixa a redação, ela se espalha e alcança diferentes pessoas, lugares e plataformas.
+
+Quando esses dois elementos se encontram, surge a **onda**.
+
+A onda representa a informação em movimento: algo que nasce em um ponto, ganha força ao longo do caminho e se propaga para além de sua origem.
+
+É exatamente essa ideia que o Wavens busca representar: **o movimento da informação desde sua origem até sua propagação.**
+
+> **WAVENS — Information in motion.**
+
+O nome também reforça a identidade visual do projeto, baseada em tons de azul e elementos associados à água, ao movimento e à propagação.
+
+---
+
 # Wavens API
 
 O Wavens é uma API de gestão editorial voltada para portfólio, desenvolvida com ASP.NET Core e PostgreSQL, que conta com autenticação, permissões baseadas em funções, gestão de equipe, ativação de conta via convite, testes de integração e infraestrutura de desenvolvimento conteinerizada com Docker.
@@ -9,7 +29,6 @@ O objetivo do projeto é fornecer uma base sólida para a construção de um CMS
 > A branch `main` representa a versão estável do projeto.
 
 ---
-
 # Stack
 
 | Tecnologia                           | Utilização                                      |

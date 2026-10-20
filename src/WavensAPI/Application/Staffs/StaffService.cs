@@ -57,8 +57,10 @@ namespace WavensApi.Application.Staffs
 
         public async Task<ApplicationResult<KeysetPagedResult<StaffListItem>>> ListAllStaffsAsync(
             StaffStatus? status,
+            string? search,
             StaffKeysetCursor? currentCursor,
-            int pageSize = 20)
+            int pageSize = 20
+            )
         {
             if (pageSize <= 0 || pageSize > 100) return ApplicationResult<KeysetPagedResult<StaffListItem>>.Failure(KeysetPaginationErrors.InvalidPageSize);
 
@@ -67,6 +69,14 @@ namespace WavensApi.Application.Staffs
                 .AsQueryable();
 
             if (status.HasValue) query = query.Where(staff => staff.Status == status.Value);
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var normalizedSearch = search.Trim();
+
+                if (normalizedSearch.Contains('@')) query = query.Where(staff => EF.Functions.ILike(staff.Email, $"%{normalizedSearch}%"));
+                else query = query.Where(staff => EF.Functions.ILike(staff.FirstName, $"%{normalizedSearch}%") || EF.Functions.ILike(staff.LastName, $"%{normalizedSearch}%"));
+            }
 
             if (currentCursor is not null)
             {
@@ -90,6 +100,7 @@ namespace WavensApi.Application.Staffs
                     FirstName = staff.FirstName,
                     LastName = staff.LastName,
                     Email = staff.Email,
+                    Status = staff.Status,
                     CreatedAt = staff.CreatedAt,
                 })
                 .ToListAsync();

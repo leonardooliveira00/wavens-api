@@ -47,6 +47,7 @@ namespace WavensApi.Presentation.Controllers.Staffs
         [HttpGet]
         public async Task<IActionResult> ListAllStaffs(
             [FromQuery] StaffStatus? status,
+            [FromQuery] string? search,
             [FromQuery] string? cursor,
             [FromQuery] int pageSize = 20
             )
@@ -65,6 +66,7 @@ namespace WavensApi.Presentation.Controllers.Staffs
 
             var result = await _staffService.ListAllStaffsAsync(
                 status,
+                search,
                 currentCursor,
                 pageSize
                 );
@@ -79,7 +81,9 @@ namespace WavensApi.Presentation.Controllers.Staffs
                     Id = staff.Id,
                     FirstName = staff.FirstName,
                     LastName = staff.LastName,
+                    FullName = $"{staff.FirstName} {staff.LastName}",
                     Email = staff.Email,
+                    Status = staff.Status
                 })
                 .ToList();
 

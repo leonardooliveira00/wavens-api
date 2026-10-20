@@ -51,8 +51,8 @@ namespace WavensApi.Presentation.Controllers.Authentication
         {
             var response = new CurrentUserResponse
             {
-                Authenticated = User.Identity?.IsAuthenticated ?? false,
-                Name = User.Identity?.Name,
+                Id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("Authenticated User ID is missing")),
+                Email = User.FindFirstValue(ClaimTypes.Email) ?? throw new InvalidOperationException("Authenticated User Email is missing"),
                 Roles = [.. User.Claims.Where(claim
                 => claim.Type == ClaimTypes.Role)
                 .Select(claim => claim.Value)],

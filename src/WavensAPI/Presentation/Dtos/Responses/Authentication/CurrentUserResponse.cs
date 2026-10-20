@@ -2,9 +2,8 @@
 {
     public sealed record CurrentUserResponse
     {
-        public bool Authenticated { get; init; }
-
-        public string? Name { get; init; }
+        public Guid Id { get; init; }
+        public required string Email { get; init; }
 
         public required IReadOnlyCollection<string> Roles { get; init; }
 

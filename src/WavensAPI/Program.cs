@@ -33,6 +33,9 @@ builder.Services.AddControllers()
                 ContentTypes = { "application/problem+json", "application/problem+xml" }
             };
         };
+    }).AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
 
 var AllowedOrigins = "_AllowedOrigins";
@@ -43,7 +46,8 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://localhost:4200")
-            .AllowCredentials();
+            .AllowCredentials()
+            .WithHeaders("Content-Type");
         });
 });
 
