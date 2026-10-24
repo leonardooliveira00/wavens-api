@@ -72,10 +72,12 @@ namespace WavensApi.Application.Staffs
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                var normalizedSearch = search.Trim();
+                var normalizedSearch = $"%{search.Trim()}%";
 
-                if (normalizedSearch.Contains('@')) query = query.Where(staff => EF.Functions.ILike(staff.Email, $"%{normalizedSearch}%"));
-                else query = query.Where(staff => EF.Functions.ILike(staff.FirstName, $"%{normalizedSearch}%") || EF.Functions.ILike(staff.LastName, $"%{normalizedSearch}%"));
+                query = query.Where(staff =>
+                EF.Functions.ILike(staff.FirstName + " " + staff.LastName, normalizedSearch) || 
+                EF.Functions.ILike(staff.Email, normalizedSearch)
+                );
             }
 
             if (currentCursor is not null)

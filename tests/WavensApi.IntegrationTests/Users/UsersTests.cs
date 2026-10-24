@@ -9,6 +9,7 @@ using WavensApi.Presentation.Dtos.Requests.Authentication;
 using WavensApi.Presentation.Dtos.Responses.Authentication;
 using System.Net;
 using System.Net.Http.Json;
+using WavensAPI.IntegrationTests.Infrastructure;
 
 namespace WavensApi.IntegrationTests.Users
 {
@@ -116,7 +117,7 @@ namespace WavensApi.IntegrationTests.Users
 
             Assert.Equal(HttpStatusCode.Created, createdUserResponse.StatusCode);
 
-            var content = await createdUserResponse.Content.ReadFromJsonAsync<UserResponse>(TestContext.Current.CancellationToken);
+            var content = await createdUserResponse.Content.ReadFromJsonAsync<UserResponse>(TestJsonOptions.options ,TestContext.Current.CancellationToken);
 
             Assert.NotNull(content);
 
