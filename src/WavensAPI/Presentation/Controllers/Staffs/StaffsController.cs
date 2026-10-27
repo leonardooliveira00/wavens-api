@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WavensApi.Application.Common.Pagination;
 using WavensApi.Application.Staffs;
+using WavensApi.Application.Common.Pagination;
 using WavensApi.Domain.Constants.Authorization;
 using WavensApi.Domain.Enums.Staffs;
 using WavensApi.Presentation.Dtos.Requests.Staffs;
@@ -35,7 +35,6 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 LastName = staff.LastName,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                Bio = staff.Bio,
                 CreatedAt = staff.CreatedAt,
                 UpdatedAt = staff.UpdatedAt,
             };
@@ -47,6 +46,8 @@ namespace WavensApi.Presentation.Controllers.Staffs
         [HttpGet]
         public async Task<IActionResult> ListAllStaffs(
             [FromQuery] StaffStatus? status,
+            [FromQuery] StaffSortBy? sortBy,
+            [FromQuery] SortOrder? sortOrder,
             [FromQuery] string? search,
             [FromQuery] string? cursor,
             [FromQuery] int pageSize = 20
@@ -58,6 +59,7 @@ namespace WavensApi.Presentation.Controllers.Staffs
             {
                 if (!KeysetCursorCodec.TryDecode<StaffKeysetCursor>(
                     cursor,
+                    typeof(StaffKeysetCursor),
                     out currentCursor))
                 {
                     return StatusCode(StatusCodes.Status400BadRequest);
@@ -66,6 +68,8 @@ namespace WavensApi.Presentation.Controllers.Staffs
 
             var result = await _staffService.ListAllStaffsAsync(
                 status,
+                sortBy,
+                sortOrder,
                 search,
                 currentCursor,
                 pageSize
@@ -114,7 +118,6 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 LastName = staff.LastName,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                Bio = staff.Bio,
                 Status = staff.Status
             };
 
@@ -138,7 +141,6 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 LastName = staff.LastName,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                Bio = staff.Bio,
             };
 
             return Ok(response);

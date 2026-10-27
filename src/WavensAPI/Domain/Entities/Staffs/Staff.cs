@@ -16,8 +16,6 @@ namespace WavensApi.Domain.Entities.Staffs
 
         public required string ContactPhone { get; set; }
 
-        public string? Bio { get; set; }
-
         public StaffStatus Status { get; set; } = StaffStatus.Active;
 
         public User? User { get; set; }

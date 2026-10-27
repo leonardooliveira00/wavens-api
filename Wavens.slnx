@@ -7,9 +7,9 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/WavensApi/WavensAPI.csproj" />
+    <Project Path="src/WavensApi/WavensApi.csproj" DisplayName="WavensApi" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/WavensApi.IntegrationTests/WavensAPI.IntegrationTests.csproj" />
+    <Project Path="tests/WavensApi.IntegrationTests/WavensApi.IntegrationTests.csproj" DisplayName="WavensApi.IntegrationTests" />
   </Folder>
 </Solution>

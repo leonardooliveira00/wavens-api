@@ -25,9 +25,6 @@ namespace WavensApi.Presentation.Validations.Staffs
             {
                 RuleFor(staff => staff.ContactPhone!).ValidContactPhone();
             });
-
-            RuleFor(staff => staff.Bio)
-                .MaximumLength(255).WithMessage("{PropertyName} must be at most 255 characters long.");
         }
     }
 }

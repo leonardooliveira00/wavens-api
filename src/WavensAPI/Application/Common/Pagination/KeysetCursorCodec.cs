@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using System.Text.Json;
+using WavensApi.Application.Staffs;
 
 namespace WavensApi.Application.Common.Pagination
 {
     public static class KeysetCursorCodec
     {
-        public static string Encode<T>(T cursor)
+        public static string Encode<T>(T cursor, Type baseType)
         {
-            var json = JsonSerializer.Serialize(cursor);
+            var encoded = JsonSerializer.Serialize(cursor, baseType);
 
-            var bytes = Encoding.UTF8.GetBytes(json);
+            var bytes = Encoding.UTF8.GetBytes(encoded);
 
             return WebEncoders.Base64UrlEncode(bytes);
         }
 
-        public static bool TryDecode<T>(string encodedCursor, out T? cursor)
+        public static bool TryDecode<T>(string encodedCursor, Type baseType, out T? cursor)
         {
             cursor = default;
 
@@ -25,9 +26,15 @@ namespace WavensApi.Application.Common.Pagination
 
                 var json = Encoding.UTF8.GetString(bytes);
 
-                cursor = JsonSerializer.Deserialize<T>(json);
+                var decoded = JsonSerializer.Deserialize(json, baseType);
 
-                return cursor is not null;
+                if (decoded is T result)
+                {
+                    cursor = result;
+                    return true;
+                }
+
+                return false;
             }
             catch (FormatException)
             {

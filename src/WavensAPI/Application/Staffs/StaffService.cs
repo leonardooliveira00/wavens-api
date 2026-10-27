@@ -34,7 +34,6 @@ namespace WavensApi.Application.Staffs
                 LastName = request.LastName.Trim(),
                 Email = request.Email,
                 ContactPhone = request.ContactPhone.Trim(),
-                Bio = request.Bio?.Trim(),
             };
 
             _context.Staffs.Add(staff);
@@ -57,12 +56,19 @@ namespace WavensApi.Application.Staffs
 
         public async Task<ApplicationResult<KeysetPagedResult<StaffListItem>>> ListAllStaffsAsync(
             StaffStatus? status,
+            StaffSortBy? sortBy,
+            SortOrder? sortOrder,
             string? search,
             StaffKeysetCursor? currentCursor,
-            int pageSize = 20
+            int pageSize
             )
         {
             if (pageSize <= 0 || pageSize > 100) return ApplicationResult<KeysetPagedResult<StaffListItem>>.Failure(KeysetPaginationErrors.InvalidPageSize);
+
+            sortBy ??= StaffSortBy.CreatedAt;
+            sortOrder ??= SortOrder.Desc;
+
+            if (!Enum.IsDefined(sortBy.Value)) throw new BadHttpRequestException($"Invalid sortBy value: {sortBy.Value}");
 
             var query = _context.Staffs
                 .AsNoTracking()
@@ -75,24 +81,63 @@ namespace WavensApi.Application.Staffs
                 var normalizedSearch = $"%{search.Trim()}%";
 
                 query = query.Where(staff =>
-                EF.Functions.ILike(staff.FirstName + " " + staff.LastName, normalizedSearch) || 
+                EF.Functions.ILike(staff.FirstName + " " + staff.LastName, normalizedSearch) ||
                 EF.Functions.ILike(staff.Email, normalizedSearch)
                 );
             }
 
             if (currentCursor is not null)
             {
-                query = query.Where(staff =>
-                    EF.Functions.LessThan(
-                        ValueTuple.Create(staff.CreatedAt, staff.Id),
-                        ValueTuple.Create(currentCursor.CreatedAt, currentCursor.Id)
-                        ));
+
+                if (currentCursor is not CreatedAtCursor createdAtCursor)
+                {
+                    throw new BadHttpRequestException("Invalid cursor type.");
+                }
+
+                if (currentCursor is not FirstNameCursor firstNameCursor)
+                {
+                    throw new BadHttpRequestException("Invalid cursor type.");
+                }
+
+                if (currentCursor is not LastNameCursor lastNameCursor)
+                {
+                    throw new BadHttpRequestException("Invalid cursor type.");
+                }
+
+                query = sortBy switch
+                {
+                    StaffSortBy.CreatedAt => sortOrder == SortOrder.Desc
+                    ? query.Where(staff => staff.CreatedAt < createdAtCursor.CreatedAt || (staff.CreatedAt == createdAtCursor.CreatedAt && staff.Id < createdAtCursor.Id))
+                    : query.Where(staff => staff.CreatedAt > createdAtCursor.CreatedAt || (staff.CreatedAt == createdAtCursor.CreatedAt && staff.Id > createdAtCursor.Id)),
+
+                    StaffSortBy.FirstName => sortOrder == SortOrder.Desc
+                    ? query.Where(staff => string.Compare(staff.FirstName, firstNameCursor.FirstName) < 0 || (string.Compare(staff.FirstName, firstNameCursor.FirstName) == 0 && staff.Id < firstNameCursor.Id))
+                    : query.Where(staff => string.Compare(staff.FirstName, firstNameCursor.FirstName) > 0 || (string.Compare(staff.FirstName, firstNameCursor.FirstName) == 0 && staff.Id > firstNameCursor.Id)),
+
+                    StaffSortBy.LastName => sortOrder == SortOrder.Desc
+                    ? query.Where(staff => string.Compare(staff.LastName, lastNameCursor.LastName) < 0 || (string.Compare(staff.LastName, lastNameCursor.LastName) == 0 && staff.Id < lastNameCursor.Id))
+                    : query.Where(staff => string.Compare(staff.LastName, lastNameCursor.LastName) > 0 || (string.Compare(staff.LastName, lastNameCursor.LastName) == 0 && staff.Id > lastNameCursor.Id)),
+
+                    _ => throw new BadHttpRequestException($"Invalid sortBy value: {sortBy.Value}")
+                };
             }
 
-            query = query
-                .OrderByDescending(staff => staff.CreatedAt)
-                .ThenByDescending(staff => staff.Id)
-                ;
+            query = sortBy switch
+            {
+                StaffSortBy.CreatedAt => sortOrder == SortOrder.Desc
+                ? query.OrderByDescending(staff => staff.CreatedAt).ThenByDescending(staff => staff.Id)
+                : query.OrderBy(staff => staff.CreatedAt).ThenBy(staff => staff.Id),
+
+                StaffSortBy.FirstName => sortOrder == SortOrder.Desc
+                ? query.OrderByDescending(staff => staff.FirstName).ThenByDescending(staff => staff.Id)
+                : query.OrderBy(staff => staff.FirstName).ThenBy(staff => staff.Id),
+
+                StaffSortBy.LastName => sortOrder == SortOrder.Desc
+                ? query.OrderByDescending(staff => staff.LastName).ThenByDescending(staff => staff.Id)
+                : query.OrderBy(staff => staff.LastName).ThenBy(staff => staff.Id),
+
+                _ => throw new BadHttpRequestException($"Invalid sortBy value: {sortBy.Value}")
+            };
 
             var staffs = await query
                 .Take(pageSize + 1)
@@ -117,11 +162,30 @@ namespace WavensApi.Application.Staffs
 
             if (hasMore && lastStaff is not null)
             {
-                var nextCursorData = new StaffKeysetCursor(
-                    lastStaff.CreatedAt,
-                    lastStaff.Id);
+                StaffKeysetCursor nextCursorData = sortBy switch
+                {
+                    StaffSortBy.CreatedAt => new CreatedAtCursor(
+                        CreatedAt: lastStaff.CreatedAt,
+                        Id: lastStaff.Id,
+                        SortOrder: sortOrder.Value
+                    ),
 
-                nextCursor = KeysetCursorCodec.Encode(nextCursorData);
+                    StaffSortBy.FirstName => new FirstNameCursor(
+                        FirstName: lastStaff.FirstName,
+                        Id: lastStaff.Id,
+                        SortOrder: sortOrder.Value
+                    ),
+
+                    StaffSortBy.LastName => new LastNameCursor(
+                        LastName: lastStaff.LastName,
+                        Id: lastStaff.Id,
+                        SortOrder: sortOrder.Value
+                        ),
+
+                    _ => throw new BadHttpRequestException($"Invalid sortBy cursor value: {sortBy.Value}")
+                };
+
+                nextCursor = KeysetCursorCodec.Encode(nextCursorData, typeof(StaffKeysetCursor));
             }
 
             var pagedResult = new KeysetPagedResult<StaffListItem>
@@ -166,11 +230,6 @@ namespace WavensApi.Application.Staffs
             UpdateHelper.UpdateIfProvided(
                 request.ContactPhone,
                 value => staff.ContactPhone = value.Trim()
-                );
-
-            UpdateHelper.UpdateIfProvided(
-                request.Bio,
-                value => staff.Bio = value.Trim()
                 );
 
             if (request.Email is not null)

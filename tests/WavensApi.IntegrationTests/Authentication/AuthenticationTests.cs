@@ -60,7 +60,6 @@ namespace WavensApi.IntegrationTests.Authentication
                 Id = Guid.NewGuid(),
                 FirstName = "Integration",
                 LastName = "Test",
-                Bio = "Bio de testes de integração.",
                 ContactPhone = "85912345678",
                 Email = email,
             };

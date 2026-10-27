@@ -39,7 +39,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Test",
                 Email = email,
                 ContactPhone = "85987654321",
-                Bio = "Authorization Test"
             };
 
             context.Staffs.Add(staff);
@@ -84,7 +83,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Register",
                 Email = $"staff-{Guid.NewGuid()}@wavens.test",
                 ContactPhone = "8512345678",
-                Bio = ""
             };
 
             var registerStaffResponse = await client.PostAsJsonAsync("/api/staffs", registerStaffRequest, TestContext.Current.CancellationToken);
@@ -113,7 +111,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Test",
                 Email = email,
                 ContactPhone = "8512345678",
-                Bio = "Authorization Test",
             };
 
             context.Staffs.Add(staff);
@@ -158,7 +155,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Register",
                 Email = $"staff-{Guid.NewGuid()}@wavens.test",
                 ContactPhone = "8512345678",
-                Bio = ""
             };
 
             var registerStaffResponse = await client.PostAsJsonAsync("/api/staffs", registerStaffRequest, TestContext.Current.CancellationToken);
@@ -187,7 +183,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Test",
                 Email = email,
                 ContactPhone = "8512345678",
-                Bio = "Authorization Test",
             };
 
             context.Staffs.Add(staff);
@@ -232,7 +227,6 @@ namespace WavensApi.IntegrationTests.Authorization
                 LastName = "Register",
                 Email = $"staff-{Guid.NewGuid()}@wavens.test",
                 ContactPhone = "8512345678",
-                Bio = ""
             };
 
             var registerStaffResponse = await client.PostAsJsonAsync("/api/staffs", registerStaffRequest, TestContext.Current.CancellationToken);

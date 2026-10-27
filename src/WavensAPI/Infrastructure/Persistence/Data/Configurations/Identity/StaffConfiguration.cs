@@ -26,8 +26,6 @@ namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Identity
             builder.HasIndex(staff => staff.Email).IsUnique();
 
             builder.Property(staff => staff.ContactPhone).HasMaxLength(20).IsRequired();
-
-            builder.Property(staff => staff.Bio).HasMaxLength(1000);
         }
     }
 }

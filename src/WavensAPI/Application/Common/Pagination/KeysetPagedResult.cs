@@ -7,5 +7,4 @@
         public bool HasMore { get; init; }
     }
 
-    public sealed record StaffKeysetCursor(DateTime CreatedAt, Guid Id);
 }
