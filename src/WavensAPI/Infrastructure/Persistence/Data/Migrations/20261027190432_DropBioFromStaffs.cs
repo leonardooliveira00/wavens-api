@@ -5,7 +5,7 @@
 namespace WavensApi.Migrations
 {
     /// <inheritdoc />
-    public partial class RemovedBioColumnFromStaff : Migration
+    public partial class DropBioFromStaffs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

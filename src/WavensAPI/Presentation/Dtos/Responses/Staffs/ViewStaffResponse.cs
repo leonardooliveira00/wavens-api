@@ -9,7 +9,6 @@ namespace WavensApi.Presentation.Dtos.Responses.Staffs
         public string LastName { get; init; } = null!;
         public string Email { get; init; } = null!;
         public string ContactPhone { get; init; } = null!;
-        public string? Bio { get; init; }
         public StaffStatus Status { get; init; }
     }
 }

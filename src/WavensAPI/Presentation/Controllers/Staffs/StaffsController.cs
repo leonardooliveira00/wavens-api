@@ -7,6 +7,7 @@ using WavensApi.Domain.Enums.Staffs;
 using WavensApi.Presentation.Dtos.Requests.Staffs;
 using WavensApi.Presentation.Dtos.Responses.Staffs;
 using WavensApi.Presentation.Extensions.Http;
+using System.Security.Claims;
 
 namespace WavensApi.Presentation.Controllers.Staffs
 {
@@ -87,6 +88,7 @@ namespace WavensApi.Presentation.Controllers.Staffs
                     LastName = staff.LastName,
                     FullName = $"{staff.FirstName} {staff.LastName}",
                     Email = staff.Email,
+                    Roles = staff.Roles,
                     Status = staff.Status
                 })
                 .ToList();

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WavensApi.Migrations
 {
     [DbContext(typeof(WavensDbContext))]
-    [Migration("20260901135935_AddedPhoneAndBioForStaff")]
+    [Migration("20260901135935_AddedPhoneAndForStaff")]
     partial class AddedPhoneAndBioForStaff
     {
         /// <inheritdoc />

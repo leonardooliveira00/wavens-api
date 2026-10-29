@@ -54,6 +54,13 @@ namespace WavensApi.Application.Staffs
             return ApplicationResult<Staff>.Success(staff);
         }
 
+        private static string FormatRoleName(string roleName)
+        {
+            var formatted = roleName.Replace('_', '-').ToLowerInvariant();
+
+            return char.ToUpperInvariant(formatted[0]) + formatted[1..];
+        }
+
         public async Task<ApplicationResult<KeysetPagedResult<StaffListItem>>> ListAllStaffsAsync(
             StaffStatus? status,
             StaffSortBy? sortBy,
@@ -148,9 +155,18 @@ namespace WavensApi.Application.Staffs
                     LastName = staff.LastName,
                     Email = staff.Email,
                     Status = staff.Status,
+                    Roles = _context.UserRoles.Where(
+                        userRole => userRole.User.StaffId == staff.Id)
+                    .Select(userRole => userRole.Role.Name)
+                    .ToList(),
                     CreatedAt = staff.CreatedAt,
                 })
                 .ToListAsync();
+
+            staffs = [.. staffs.Select(staff => staff with
+            {
+                Roles = [.. staff.Roles.Select(FormatRoleName)]
+            })];
 
             var hasMore = staffs.Count > pageSize;
 

@@ -10,6 +10,7 @@ namespace WavensApi.Presentation.Dtos.Responses.Staffs
         public required string LastName { get; init; }
         public required string FullName { get; init; }
         public required string Email { get; init; }
+        public required IReadOnlyCollection<string> Roles { get; init; }
         public StaffStatus Status { get; init; }
     }
 }
