@@ -19,6 +19,27 @@ namespace WavensApi.Presentation.Controllers.Staffs
     {
         private readonly StaffService _staffService = staffService;
 
+        [Authorize]
+        [HttpPost("validate-availability")]
+        public async Task<IActionResult> ValidateAvailability(
+            [FromBody] ValidateAvailability? request
+            )
+        {
+            var result = await _staffService.ValidateAvailabilityAsync(request);
+
+            if(!result.Succeeded) return result.ToErrorResult();
+
+            var data = result.Data!;
+
+            var response = new ValidationAvailabilityResponse
+            {
+                EmailAvailable = data.EmailAvailable,
+                ContactPhoneAvailable = data.ContactPhoneAvailable
+            };
+
+            return Ok(response);
+        }
+
         [Authorize(Policy = PermissionConstants.CreateStaff)]
         [HttpPost()]
         public async Task<IActionResult> RegisterStaff([FromBody] RegisterStaffRequest request)

@@ -27,5 +27,17 @@ namespace WavensApi.Application.Common.Errors
             "Staff email already in use.",
             ApplicationErrorType.Conflict
             );
+
+        public static readonly ApplicationError ContactPhoneAlreadyInUse = new(
+            "staff_contact_phone_already_in_use",
+            "Staff contact phone already in use.",
+            ApplicationErrorType.Conflict
+            );
+
+        public static readonly ApplicationError InvalidRequest = new(
+            "staff_invalid_request",
+            "Staff request is invalid.",
+            ApplicationErrorType.Validation
+            );
     }
 }

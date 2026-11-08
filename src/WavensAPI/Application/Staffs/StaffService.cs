@@ -21,6 +21,29 @@ namespace WavensApi.Application.Staffs
         private readonly WavensDbContext _context = wavensDbContext;
         private readonly UserManager<User> _userManager = userManager;
 
+        public async Task<ApplicationResult<StaffAvailabilityResult>> ValidateAvailabilityAsync(ValidateAvailability? request)
+        {
+            if (request is null) return ApplicationResult<StaffAvailabilityResult>.Failure(StaffErrors.InvalidRequest);
+
+            bool? emailAvailable = request.Email is null ? null :
+                !await _context.Staffs
+                .Select(staff => staff.Email)
+                .AnyAsync(email => request.Email == email);
+
+            bool? contactPhoneAvailable = request.ContactPhone is null ? null :
+                !await _context.Staffs
+                .Select(staff => staff.ContactPhone)
+                .AnyAsync(phone => request.ContactPhone == phone);
+
+            var result = new StaffAvailabilityResult
+            {
+                EmailAvailable = emailAvailable,
+                ContactPhoneAvailable = contactPhoneAvailable
+            };
+
+            return ApplicationResult<StaffAvailabilityResult>.Success(result);
+        }
+
         public async Task<ApplicationResult<Staff>> RegisterStaffAsync(RegisterStaffRequest request)
         {
             var staffExists = await _context.Staffs.AnyAsync(staff => staff.Email == request.Email);
