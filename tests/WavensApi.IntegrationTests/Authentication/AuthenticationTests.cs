@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WavensApi.Application.Authentication;
 using WavensApi.Domain.Entities.Identity.Users;
-using WavensApi.Domain.Entities.Staffs;
+using WavensApi.Domain.Entities.Staff;
 using WavensApi.Domain.Enums.Identity.Users;
 using WavensApi.Infrastructure.Persistence;
 using WavensApi.IntegrationTests.Infrastructure;

@@ -34,6 +34,12 @@ namespace WavensApi.Application.Common.Errors
             ApplicationErrorType.Conflict
             );
 
+        public static readonly ApplicationError InvalidEditorialRoles = new(
+            "staff_invalid_editorial_roles",
+            "One or more selected editorial roles are invalid.",
+            ApplicationErrorType.Validation
+            );
+
         public static readonly ApplicationError InvalidRequest = new(
             "staff_invalid_request",
             "Staff request is invalid.",

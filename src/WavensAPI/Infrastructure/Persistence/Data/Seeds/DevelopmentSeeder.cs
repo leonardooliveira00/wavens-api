@@ -32,6 +32,17 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                     Id = Guid.NewGuid(),
                     FirstName = "Development",
                     LastName = "Admin",
+                    BirthDate = DateOnly.Parse("2000-11-01"),
+                    Address = new Address
+                    {
+                        Street = "Rua X",
+                        Number = "123",
+                        Complement = "Apto 52",
+                        District = "Centro",
+                        State = "CE",
+                        City = "Fortaleza",
+                        Cep = "60000-000"
+                    },
                     Email = "admin@wavens.com",
                     ContactPhone = "85998765432",
                 },
@@ -40,6 +51,16 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                     Id = Guid.NewGuid(),
                     FirstName = "Test",
                     LastName = "Reporter",
+                    BirthDate = DateOnly.Parse("1990-05-15"),
+                    Address = new Address
+                    {
+                        Street = "Rua Y",
+                        Number = "456",
+                        District = "Jardim",
+                        State = "CE",
+                        City = "Fortaleza",
+                        Cep = "60000-001"
+                    },
                     Email = "reporter@wavens.com",
                     ContactPhone = "85912345678"
                 }

@@ -16,10 +16,6 @@ namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Authorization
                 userRole.RoleId
             });
 
-            builder.Property(userRole => userRole.UserId);
-
-            builder.Property(userRole => userRole.RoleId);
-
             builder.Property(userRole => userRole.AssignedAt);
 
             builder.HasOne(userRole => userRole.User).WithMany().HasForeignKey(userRole => userRole.UserId);

@@ -50,14 +50,44 @@ namespace WavensApi.Application.Staffs
 
             if (staffExists) return ApplicationResult<Staff>.Failure(StaffErrors.StaffAlreadyExists);
 
+            if(request.EditorialRoleIds.Count == 0) return ApplicationResult<Staff>.Failure(StaffErrors.InvalidEditorialRoles);
+
+            var editorialRoles = await _context.EditorialRoles
+                .Where(role => request.EditorialRoleIds.Contains(role.Id))
+                .ToListAsync();
+
+            if(editorialRoles.Count != request.EditorialRoleIds.Count)
+            {
+                return ApplicationResult<Staff>.Failure(StaffErrors.InvalidEditorialRoles);
+            }
+
             var staff = new Staff
             {
                 Id = Guid.NewGuid(),
                 FirstName = request.FirstName.Trim(),
                 LastName = request.LastName.Trim(),
+                BirthDate = request.BirthDate,
                 Email = request.Email,
                 ContactPhone = request.ContactPhone.Trim(),
+                Address = new Address
+                {
+                    Street = request.Address.Street,
+                    Number = request.Address.Number,
+                    Complement = request.Address.Complement,
+                    District = request.Address.District,
+                    State = request.Address.State,
+                    City = request.Address.City,
+                    Cep = request.Address.Cep
+                }
             };
+
+            staff.StaffEditorialRoles = [.. editorialRoles.Select(role => new StaffEditorialRole
+            {
+                Staff = staff,
+                StaffId = staff.Id,
+                EditorialRoleId = role.Id,
+                EditorialRole = role,
+            })];
 
             _context.Staffs.Add(staff);
 

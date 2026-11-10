@@ -22,7 +22,7 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                 {
                     Id = Guid.NewGuid(),
                     Name = "MANAGER",
-                    Description = "Managment and analytics access."
+                    Description = "Management and analytics access."
                 },
 
                 new Role

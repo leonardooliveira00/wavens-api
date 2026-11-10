@@ -10,6 +10,8 @@ using WavensApi.Domain.Entities.Staffs;
 
 public class WavensDbContext(DbContextOptions<WavensDbContext> options) : IdentityUserContext<User, Guid>(options)
 {
+    public DbSet<EditorialRole> EditorialRoles => Set<EditorialRole>();
+    public DbSet<StaffEditorialRole> StaffEditorialRoles => Set<StaffEditorialRole>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();

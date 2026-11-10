@@ -55,10 +55,24 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 Id = staff.Id,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
+                BirthDate = staff.BirthDate,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                CreatedAt = staff.CreatedAt,
-                UpdatedAt = staff.UpdatedAt,
+                Address = new AddressResponse
+                {
+                    Street = staff.Address.Street,
+                    Number = staff.Address.Number,
+                    Complement = staff.Address.Complement,
+                    District = staff.Address.District,
+                    State = staff.Address.State,
+                    City = staff.Address.City,
+                    Cep = staff.Address.Cep
+                },
+                EditorialRoles = [.. staff.StaffEditorialRoles.Select(role => new StaffEditorialRoleResponse
+                {
+                    Id = role.EditorialRoleId,
+                    Name = role.EditorialRole.Name
+                })]
             };
 
             return StatusCode(StatusCodes.Status201Created, response);
@@ -139,8 +153,24 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 Id = staff.Id,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
+                BirthDate = staff.BirthDate,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
+                Address = new AddressResponse
+                {
+                    Street = staff.Address.Street,
+                    Number = staff.Address.Number,
+                    Complement = staff.Address.Complement,
+                    District = staff.Address.District,
+                    State = staff.Address.State,
+                    City = staff.Address.City,
+                    Cep = staff.Address.Cep
+                },
+                EditorialRoles = [.. staff.StaffEditorialRoles.Select(role => new StaffEditorialRoleResponse
+                {
+                    Id = role.EditorialRoleId,
+                    Name = role.EditorialRole.Name
+                })],
                 Status = staff.Status
             };
 

@@ -262,11 +262,35 @@ namespace WavensApi.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.EditorialRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EditorialRoles");
+                });
+
             modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.Staff", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ContactPhone")
                         .IsRequired()
@@ -291,8 +315,10 @@ namespace WavensApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -305,6 +331,24 @@ namespace WavensApi.Migrations
                     b.HasIndex("CreatedAt", "Id");
 
                     b.ToTable("Staffs", (string)null);
+                });
+
+            modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.StaffEditorialRole", b =>
+                {
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EditorialRoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AssignedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("StaffId", "EditorialRoleId");
+
+                    b.HasIndex("EditorialRoleId");
+
+                    b.ToTable("StaffEditorialRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -383,6 +427,78 @@ namespace WavensApi.Migrations
                     b.Navigation("Staff");
                 });
 
+            modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.Staff", b =>
+                {
+                    b.OwnsOne("WavensApi.Domain.Entities.Staffs.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("StaffId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Cep")
+                                .IsRequired()
+                                .HasMaxLength(9)
+                                .HasColumnType("character varying(9)");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.Property<string>("Complement")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("District")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("character varying(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.HasKey("StaffId");
+
+                            b1.ToTable("Addresses", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("StaffId");
+                        });
+
+                    b.Navigation("Address")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.StaffEditorialRole", b =>
+                {
+                    b.HasOne("WavensApi.Domain.Entities.Staffs.EditorialRole", "EditorialRole")
+                        .WithMany("StaffEditorialRoles")
+                        .HasForeignKey("EditorialRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WavensApi.Domain.Entities.Staffs.Staff", "Staff")
+                        .WithMany("StaffEditorialRoles")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EditorialRole");
+
+                    b.Navigation("Staff");
+                });
+
             modelBuilder.Entity("WavensApi.Domain.Entities.Authorization.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
@@ -393,8 +509,15 @@ namespace WavensApi.Migrations
                     b.Navigation("RolePermissions");
                 });
 
+            modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.EditorialRole", b =>
+                {
+                    b.Navigation("StaffEditorialRoles");
+                });
+
             modelBuilder.Entity("WavensApi.Domain.Entities.Staffs.Staff", b =>
                 {
+                    b.Navigation("StaffEditorialRoles");
+
                     b.Navigation("User");
                 });
 #pragma warning restore 612, 618
