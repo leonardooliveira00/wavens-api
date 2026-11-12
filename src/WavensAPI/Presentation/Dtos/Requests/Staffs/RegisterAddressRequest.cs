@@ -1,7 +1,8 @@
-﻿namespace WavensApi.Presentation.Dtos.Responses.Staffs
+﻿namespace WavensApi.Presentation.Dtos.Requests.Staffs
 {
-    public sealed record AddressResponse
+    public sealed record RegisterAddressRequest
     {
+        public Guid StaffId;
         public required string Street { get; init; }
         public required string Number { get; init; }
         public string? Complement { get; init; }

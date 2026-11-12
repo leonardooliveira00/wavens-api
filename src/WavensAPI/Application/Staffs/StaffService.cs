@@ -21,6 +21,13 @@ namespace WavensApi.Application.Staffs
         private readonly WavensDbContext _context = wavensDbContext;
         private readonly UserManager<User> _userManager = userManager;
 
+        private static string FormatRoleName(string roleName)
+        {
+            var formatted = roleName.Replace('_', '-').ToLowerInvariant();
+
+            return char.ToUpperInvariant(formatted[0]) + formatted[1..];
+        }
+
         public async Task<ApplicationResult<StaffAvailabilityResult>> ValidateAvailabilityAsync(ValidateAvailability? request)
         {
             if (request is null) return ApplicationResult<StaffAvailabilityResult>.Failure(StaffErrors.InvalidRequest);
@@ -75,7 +82,7 @@ namespace WavensApi.Application.Staffs
                     Number = request.Address.Number,
                     Complement = request.Address.Complement,
                     District = request.Address.District,
-                    State = request.Address.State,
+                    State = request.Address.State.ToUpperInvariant(),
                     City = request.Address.City,
                     Cep = request.Address.Cep
                 }
@@ -105,13 +112,6 @@ namespace WavensApi.Application.Staffs
             }
 
             return ApplicationResult<Staff>.Success(staff);
-        }
-
-        private static string FormatRoleName(string roleName)
-        {
-            var formatted = roleName.Replace('_', '-').ToLowerInvariant();
-
-            return char.ToUpperInvariant(formatted[0]) + formatted[1..];
         }
 
         public async Task<ApplicationResult<KeysetPagedResult<StaffListItem>>> ListAllStaffsAsync(
@@ -296,10 +296,56 @@ namespace WavensApi.Application.Staffs
                 value => staff.LastName = value.Trim()
                 );
 
+            UpdateHelper.UpdateIfProvided<DateOnly>(
+                request.BirthDate,
+                value => staff.BirthDate = value
+                );
+
+            UpdateHelper.UpdateIfProvided(
+                request.Bio,
+                value => staff.Bio = value
+                );
+
             UpdateHelper.UpdateIfProvided(
                 request.ContactPhone,
                 value => staff.ContactPhone = value.Trim()
                 );
+
+            UpdateHelper.UpdateIfProvided(
+                request.Address,
+                value =>
+                {
+                    var address = staff.Address;
+                    UpdateHelper.UpdateIfProvided(
+                        value.Street,
+                        street => address.Street = street
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.Number,
+                        number => address.Number = number
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.Complement,
+                        complement => address.Complement = string.IsNullOrWhiteSpace(complement) ? null : complement
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.District,
+                        district => address.District = district
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.State,
+                        state => address.State = state.ToUpperInvariant()
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.City,
+                        city => address.City = city
+                        );
+                    UpdateHelper.UpdateIfProvided(
+                        value.Cep,
+                        cep => address.Cep = cep
+                        );
+                }
+            );
 
             if (request.Email is not null)
             {

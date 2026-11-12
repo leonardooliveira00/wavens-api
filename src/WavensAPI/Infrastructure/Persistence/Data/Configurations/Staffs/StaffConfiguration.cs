@@ -51,7 +51,7 @@ namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Staffs
 
                 address.Property(address => address.State).HasMaxLength(50).IsRequired();
 
-                address.Property(address => address.Cep).HasMaxLength(9).IsRequired();
+                address.Property(address => address.Cep).HasMaxLength(8).IsRequired();
             });
         }
     }

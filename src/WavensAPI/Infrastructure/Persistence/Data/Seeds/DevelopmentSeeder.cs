@@ -41,7 +41,7 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                         District = "Centro",
                         State = "CE",
                         City = "Fortaleza",
-                        Cep = "60000-000"
+                        Cep = "60000000"
                     },
                     Email = "admin@wavens.com",
                     ContactPhone = "85998765432",
@@ -59,7 +59,7 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                         District = "Jardim",
                         State = "CE",
                         City = "Fortaleza",
-                        Cep = "60000-001"
+                        Cep = "60000001"
                     },
                     Email = "reporter@wavens.com",
                     ContactPhone = "85912345678"

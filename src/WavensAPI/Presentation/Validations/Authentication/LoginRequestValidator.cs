@@ -8,7 +8,7 @@ namespace WavensApi.Presentation.Validations.Authentication
     {
         public LoginRequestValidator()
         {
-            RuleFor(user => user.Email).ValidEmail();
+            RuleFor(user => user.Email).ValidateEmail();
 
             RuleFor(user => user.Password)
                 .NotEmpty().WithMessage("{PropertyName} is required.");

@@ -2,7 +2,7 @@
 
 namespace WavensApi.Presentation.Validations.Extensions
 {
-    public static class PasswordValidationExtensioins
+    public static class PasswordValidationExtensions
     {
         public static IRuleBuilderOptions<T, string> StrongPassword<T>(this IRuleBuilder<T, string> ruleBuilder)
         {

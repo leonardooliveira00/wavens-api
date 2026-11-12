@@ -17,7 +17,7 @@ namespace WavensApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.14")
+                .HasAnnotation("ProductVersion", "10.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -436,8 +436,8 @@ namespace WavensApi.Migrations
 
                             b1.Property<string>("Cep")
                                 .IsRequired()
-                                .HasMaxLength(9)
-                                .HasColumnType("character varying(9)");
+                                .HasMaxLength(8)
+                                .HasColumnType("character varying(8)");
 
                             b1.Property<string>("City")
                                 .IsRequired()

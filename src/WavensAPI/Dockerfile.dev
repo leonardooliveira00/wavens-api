@@ -5,7 +5,7 @@
 # https://docs.docker.com/go/dockerfile-reference/
 
 # serve with hot-reload. Used directly in development via compose.yaml.
-FROM mcr.microsoft.com/dotnet/sdk:10.0
+FROM mcr.microsoft.com/dotnet/sdk:10.0.404
 
 WORKDIR /app
 

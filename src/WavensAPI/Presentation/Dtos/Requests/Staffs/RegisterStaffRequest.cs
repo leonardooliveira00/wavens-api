@@ -7,7 +7,7 @@
         public required DateOnly BirthDate { get; init; }
         public required string Email { get; init; }
         public required string ContactPhone { get; init; }
-        public required AddressRequest Address { get; init; }
+        public required RegisterAddressRequest Address { get; init; }
         public required IReadOnlyCollection<Guid> EditorialRoleIds { get; init; }
     }
 }

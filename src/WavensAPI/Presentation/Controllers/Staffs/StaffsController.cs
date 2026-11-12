@@ -52,13 +52,12 @@ namespace WavensApi.Presentation.Controllers.Staffs
 
             var response = new RegisterStaffResponse
             {
-                Id = staff.Id,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 BirthDate = staff.BirthDate,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                Address = new AddressResponse
+                Address = new RegisterAddressResponse
                 {
                     Street = staff.Address.Street,
                     Number = staff.Address.Number,
@@ -156,7 +155,7 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 BirthDate = staff.BirthDate,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
-                Address = new AddressResponse
+                Address = new RegisterAddressResponse
                 {
                     Street = staff.Address.Street,
                     Number = staff.Address.Number,
@@ -192,8 +191,20 @@ namespace WavensApi.Presentation.Controllers.Staffs
                 Id = staff.Id,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
+                BirthDate = staff.BirthDate,
+                Bio = staff.Bio,
                 Email = staff.Email,
                 ContactPhone = staff.ContactPhone,
+                Address = new UpdateAddressResponse
+                {
+                    Street = staff.Address.Street,
+                    Number = staff.Address.Number,
+                    Complement = staff.Address.Complement,
+                    District = staff.Address.District,
+                    State = staff.Address.State,
+                    City = staff.Address.City,
+                    Cep = staff.Address.Cep
+                }
             };
 
             return Ok(response);

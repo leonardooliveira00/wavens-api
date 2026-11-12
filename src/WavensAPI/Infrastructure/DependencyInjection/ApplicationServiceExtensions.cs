@@ -20,7 +20,7 @@ namespace WavensApi.Infrastructure.DependencyInjection
         {
             ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Continue;
             ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
-            services.AddValidatorsFromAssemblyContaining<RegisterStaffRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RegisterStaffValidator>();
             services.AddFluentValidationAutoValidation();
 
             services.AddScoped<StaffService>();

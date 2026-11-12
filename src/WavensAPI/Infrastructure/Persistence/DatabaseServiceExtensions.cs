@@ -15,7 +15,7 @@ public static class DatabaseServiceExtensions
                 "Connection String 'DefaultConnection' not found."
             );
 
-        services.AddDbContext<WavensDbContext>(options =>
+        services.AddDbContextPool<WavensDbContext>(options =>
             options.UseNpgsql(connectionString)
         );
 

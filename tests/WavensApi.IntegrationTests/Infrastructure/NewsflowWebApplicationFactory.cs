@@ -45,7 +45,7 @@ namespace WavensApi.IntegrationTests.Infrastructure
 
                 services.Remove(dbContextDescriptor);
 
-                services.AddDbContext<WavensDbContext>(options =>
+                services.AddDbContextPool<WavensDbContext>(options =>
                     options.UseNpgsql(connectionString));
 
                 var emailServiceDescriptor = services.SingleOrDefault(
