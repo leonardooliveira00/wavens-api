@@ -1,4 +1,6 @@
-﻿namespace WavensApi.Presentation.Dtos.Requests.Staffs
+﻿using WavensApi.Domain.Entities.Staffs.Addresses;
+
+namespace WavensApi.Presentation.Dtos.Requests.Staffs
 {
     public sealed record RegisterAddressRequest
     {
@@ -9,6 +11,6 @@
         public required string District { get; init; }
         public required string State { get; init; }
         public required string City { get; init; }
-        public required string Cep { get; init; }
+        public required Cep Cep { get; init; }
     }
 }

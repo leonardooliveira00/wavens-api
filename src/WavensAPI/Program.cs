@@ -4,6 +4,7 @@ using WavensApi.Infrastructure.DependencyInjection;
 using WavensApi.Infrastructure.Hosting;
 using WavensApi.Infrastructure.Identity;
 using WavensApi.Infrastructure.Persistence;
+using WavensApi.Presentation.Converters;
 using WavensApi.Presentation.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,9 @@ builder.Services.AddControllers()
     }).AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new MobilePhoneJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new CepJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
     });
 
 var AllowedOrigins = "_AllowedOrigins";

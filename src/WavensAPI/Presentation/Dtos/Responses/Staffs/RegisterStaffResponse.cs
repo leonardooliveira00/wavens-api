@@ -1,4 +1,7 @@
-﻿namespace WavensApi.Presentation.Dtos.Responses.Staffs
+﻿using WavensApi.Domain.Entities.Staffs;
+using System.Text.Json.Serialization;
+
+namespace WavensApi.Presentation.Dtos.Responses.Staffs
 {
     public sealed record RegisterStaffResponse
     {
@@ -6,7 +9,7 @@
         public required string LastName { get; init; }
         public required DateOnly BirthDate { get; init; }
         public required string Email { get; init; }
-        public required string ContactPhone { get; init; }
+        public required MobilePhoneNumber ContactPhone { get; init; }
         public required RegisterAddressResponse Address { get; init; }
         public required IReadOnlyCollection<StaffEditorialRoleResponse> EditorialRoles { get; init; }
     }

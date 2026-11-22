@@ -1,4 +1,6 @@
-﻿using WavensApi.Domain.Enums.Staffs;
+﻿using System.Text.Json.Serialization;
+using WavensApi.Domain.Entities.Staffs;
+using WavensApi.Domain.Enums.Staffs;
 
 namespace WavensApi.Presentation.Dtos.Responses.Staffs
 {
@@ -9,7 +11,7 @@ namespace WavensApi.Presentation.Dtos.Responses.Staffs
         public required string LastName { get; init; }
         public required DateOnly BirthDate { get; init; }
         public required string Email { get; init; }
-        public required string ContactPhone { get; init; }  
+        public required MobilePhoneNumber ContactPhone { get; init; }
         public required RegisterAddressResponse Address { get; init; }
         public required IReadOnlyCollection<StaffEditorialRoleResponse> EditorialRoles { get; init; }
         public StaffStatus Status { get; init; }

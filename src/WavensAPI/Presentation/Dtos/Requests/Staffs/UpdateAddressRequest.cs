@@ -1,4 +1,6 @@
-﻿namespace WavensApi.Presentation.Dtos.Requests.Staffs
+﻿using WavensApi.Domain.Entities.Staffs.Addresses;
+
+namespace WavensApi.Presentation.Dtos.Requests.Staffs
 {
     public sealed record UpdateAddressRequest
     {
@@ -8,6 +10,6 @@
         public string? District { get; init; }
         public string? State { get; init; }
         public string? City { get; init; }
-        public string? Cep { get; init; }
+        public Cep? Cep { get; init; }
     }
 }

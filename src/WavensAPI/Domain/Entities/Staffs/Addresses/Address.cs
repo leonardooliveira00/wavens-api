@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace WavensApi.Domain.Entities.Staffs
+namespace WavensApi.Domain.Entities.Staffs.Addresses
 {
     [Owned]
     public class Address
@@ -12,6 +12,6 @@ namespace WavensApi.Domain.Entities.Staffs
         public required string District { get; set; }
         public required string State { get; set; }
         public required string City { get; set; }
-        public required string Cep { get; set; }
+        public required Cep Cep { get; set; }
     }
 }

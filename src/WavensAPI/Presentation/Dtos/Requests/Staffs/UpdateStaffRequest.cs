@@ -1,4 +1,6 @@
-﻿namespace WavensApi.Presentation.Dtos.Requests.Staffs
+﻿using WavensApi.Domain.Entities.Staffs;
+
+namespace WavensApi.Presentation.Dtos.Requests.Staffs
 {
     public sealed record UpdateStaffRequest
     {
@@ -7,7 +9,7 @@
         public DateOnly? BirthDate { get; init; }
         public string? Bio { get; init; }
         public string? Email { get; init; }
-        public string? ContactPhone { get; init; }
+        public MobilePhoneNumber? ContactPhone { get; init; }
         public UpdateAddressRequest? Address { get; init; }
     }
 }

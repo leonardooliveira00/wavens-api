@@ -11,6 +11,7 @@ using WavensApi.Domain.Enums.Staffs;
 using WavensApi.Infrastructure.Persistence;
 using WavensApi.Presentation.Dtos.Requests.Staffs;
 using Npgsql;
+using WavensApi.Domain.Entities.Staffs.Addresses;
 
 namespace WavensApi.Application.Staffs
 {
@@ -75,7 +76,7 @@ namespace WavensApi.Application.Staffs
                 LastName = request.LastName.Trim(),
                 BirthDate = request.BirthDate,
                 Email = request.Email,
-                ContactPhone = request.ContactPhone.Trim(),
+                ContactPhone = request.ContactPhone,
                 Address = new Address
                 {
                     Street = request.Address.Street,
@@ -308,7 +309,7 @@ namespace WavensApi.Application.Staffs
 
             UpdateHelper.UpdateIfProvided(
                 request.ContactPhone,
-                value => staff.ContactPhone = value.Trim()
+                value => staff.ContactPhone = value
                 );
 
             UpdateHelper.UpdateIfProvided(

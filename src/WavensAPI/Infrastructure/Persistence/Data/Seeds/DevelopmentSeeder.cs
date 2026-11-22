@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using WavensApi.Domain.Entities.Authorization;
 using WavensApi.Domain.Entities.Identity.Users;
 using WavensApi.Domain.Entities.Staffs;
+using WavensApi.Domain.Entities.Staffs.Addresses;
 using WavensApi.Domain.Enums.Identity.Users;
 using WavensApi.Infrastructure.Settings;
 
@@ -41,10 +42,10 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                         District = "Centro",
                         State = "CE",
                         City = "Fortaleza",
-                        Cep = "60000000"
+                        Cep = Cep.Create("60000000")
                     },
                     Email = "admin@wavens.com",
-                    ContactPhone = "85998765432",
+                    ContactPhone = MobilePhoneNumber.Create("85998765432"),
                 },
 
                 new() {
@@ -59,10 +60,10 @@ namespace WavensApi.Infrastructure.Persistence.Data.Seeds
                         District = "Jardim",
                         State = "CE",
                         City = "Fortaleza",
-                        Cep = "60000001"
+                        Cep = Cep.Create("60000001")
                     },
                     Email = "reporter@wavens.com",
-                    ContactPhone = "85912345678"
+                    ContactPhone = MobilePhoneNumber.Create("85912345678")
                 }
             };
 

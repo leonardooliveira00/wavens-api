@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WavensApi.Domain.Entities.Staffs;
+using WavensApi.Domain.Entities.Staffs.Addresses;
 
 namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Staffs
 {
@@ -25,7 +26,12 @@ namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Staffs
             builder.Property(staff => staff.Email).HasMaxLength(255).IsRequired();
             builder.HasIndex(staff => staff.Email).IsUnique();
 
-            builder.Property(staff => staff.ContactPhone).HasMaxLength(20).IsRequired();
+            builder.Property(staff => staff.ContactPhone)
+                .HasConversion<string>(
+                phone => phone.Value,
+                value => MobilePhoneNumber.Create(value)
+                )
+                .HasMaxLength(11).IsRequired();
 
             builder.Property(staff => staff.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
 
@@ -51,7 +57,11 @@ namespace WavensApi.Infrastructure.Persistence.Data.Configurations.Staffs
 
                 address.Property(address => address.State).HasMaxLength(50).IsRequired();
 
-                address.Property(address => address.Cep).HasMaxLength(8).IsRequired();
+                address.Property(address => address.Cep)
+                .HasConversion<string>(
+                    cep => cep.Value,
+                    value => Cep.Create(value))
+                .HasMaxLength(8).IsRequired();
             });
         }
     }

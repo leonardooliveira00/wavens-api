@@ -1,5 +1,6 @@
 ﻿using WavensApi.Domain.Common;
 using WavensApi.Domain.Entities.Identity.Users;
+using WavensApi.Domain.Entities.Staffs.Addresses;
 using WavensApi.Domain.Enums.Staffs;
 
 namespace WavensApi.Domain.Entities.Staffs
@@ -12,7 +13,7 @@ namespace WavensApi.Domain.Entities.Staffs
         public required DateOnly BirthDate { get; set; }
         public string? Bio { get; set; }
         public required string Email { get; set; }
-        public required string ContactPhone { get; set; }
+        public required MobilePhoneNumber ContactPhone { get; set; }
         public required Address Address { get; set; }
         public IReadOnlyCollection<StaffEditorialRole> StaffEditorialRoles { get; set; } = [];
         public User? User { get; set; }
